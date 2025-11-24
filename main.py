@@ -37,9 +37,9 @@ while flag_login:
 
             match option:
                 case 1:
-                    pass
-                    art_list = artifacts.add_artifact(art_list)
-                    print(art_list)
+                    visitors_list = visitors.add_visitor(visitors_list)
+                    #art_list = artifacts.add_artifact(art_list)
+                    print(visitors_list)
                 case 2:
                     pass
                     artifacts.show_artifacts(art_list)
