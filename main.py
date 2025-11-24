@@ -41,8 +41,8 @@ while flag_login:
                     #art_list = artifacts.add_artifact(art_list)
                     print(visitors_list)
                 case 2:
-                    pass
-                    artifacts.show_artifacts(art_list)
+                    
+                    visitors.listar_visitantes()
                 case 3:
                     pass
                     print(artifacts.find_artifact(123,art_list))
@@ -78,6 +78,8 @@ while flag_login:
                     artifacts.art_clasification(art_list,rarity='prohibid')
                     
                     artifacts.art_clasification(art_list,rarity="low", status="stored")
+                
+                    artifacts.art_clasification(art_list, "rarity=high", "status=stored")              
                 case 5:
                     pass
                 case 6:

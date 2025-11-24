@@ -1,4 +1,5 @@
 import csv
+import json
 import validation
 
 def load_visitors():
@@ -48,4 +49,65 @@ def add_visitor(visitors_list):
               'species': species,
               'status': status}
     visitors_list.append(visitor)
+    guardar_visitantes(visitors_list)
+    saveJson(visitors_list)
     return visitors_list
+
+
+def guardar_visitantes(visitors):
+    with open('visitors.csv', 'w', newline='',encoding='utf-8') as file:
+        writer = csv.DictWriter(file,fieldnames=['id','name','species','status'])
+        writer.writeheader()
+        writer.writerows(visitors)
+
+
+
+def saveJson(visitors):
+    with open('visitors.json', 'w', newline='',encoding='utf-8') as file:
+        json.dump(visitors, file, indent=4, ensure_ascii=False)
+
+
+
+def listar_visitantes(*args):
+    """
+    Lista visitantes desde el archivo CSV.
+    
+    Si *args está vacío → muestra todos los visitantes.
+    Si *args tiene valores → filtra por coincidencias exactas.
+    
+    Cada visitante se imprime como una TUPLA.
+    """
+
+    # if not os.path.exists(ARCHIVO):
+    #     print("⚠ No hay visitantes registrados.")
+    #     return
+
+    print("\n--- LISTA DE VISITANTES ---\n")
+
+    with open("visitors.csv", mode="r", encoding="utf-8") as f:
+        reader = csv.reader(f)
+
+        encabezado = next(reader, None)
+        print(encabezado)
+
+        for fila in reader:
+            visitante = tuple(fila)
+
+            # Si no se pasaron filtros → mostrar todos
+            if not args:
+                print(visitante)
+                continue
+
+            # Si hay filtros, se compara cada argumento con cada campo del visitante
+            coincide = True
+            for filtro in args:
+                filtro = str(filtro).lower()
+
+                # Si el filtro no aparece en ningún campo → descartar
+                if not any(filtro in campo.lower() for campo in visitante):
+                    coincide = False
+                    break
+
+            # Mostrar solo los que cumplen todos los filtros
+            if coincide:
+                print(visitante)

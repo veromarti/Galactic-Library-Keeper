@@ -95,6 +95,65 @@ def art_clasification(artifacts_list,**kwargs):
 
     return filter
 
+
+
+
+
+def art_clasification(artifacts_list, *args):
+
+    print("\nClassification of artifacts by:", args)
+
+    # Lista donde se guardarán los artefactos filtrados
+    filtrados = []
+
+    # Procesar cada condición enviada en *args
+    for condicion in args:
+
+        # Separar clave y valor → ejemplo: "rarity=high"
+        if "=" in condicion:
+            partes = condicion.split("=")
+            clave = partes[0].lower()
+            valor = partes[1].lower()
+        else:
+            print(f"Condición inválida: {condicion}")
+            continue
+
+        # Crear una lista temporal para esta condición
+        filtrados_temporales = []
+
+        # Recorrer cada artefacto
+        for artifact in artifacts_list:
+
+            # Obtener el valor dentro del diccionario
+            valor_art = artifact.get(clave, "").lower()
+
+            # Comparar
+            if valor_art == valor:
+                filtrados_temporales.append(artifact)
+
+        # Reemplazar filtrados con los resultados más recientes
+        filtrados = filtrados_temporales
+
+    # Mostrar resultados
+    if not filtrados:
+        print("\nNo Artifacts Found")
+    else:
+        print(f"\n{len(filtrados)} artifact(s) found:\n")
+        for art in filtrados:
+            print(
+                " - ID:", art["id"],
+                ", Description:", art["description"].capitalize(),
+                ", Rarity:", art["rarity"].capitalize(),
+                ", Status:", art["status"].capitalize(),
+                sep=""
+            )
+
+    return filtrados
+
+
+
+
+
 # def update_product(product, inventory, new_price = None, new_quant = None):
 
 
