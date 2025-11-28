@@ -1,7 +1,7 @@
 import csv
 import json
 import os
-import validation
+import utils
 
 def load_visitors():
     visitors_list = []
@@ -44,7 +44,7 @@ def add_visitor(visitors_list):
     print("\n--- Registering Intergalactic Visitor ---\n")
 
     while True:
-        new_id = validation.int_entry("ID: ")
+        new_id = utils.int_entry("ID: ")
         if not find_id(new_id, ids):
             break
         print("Try again.\n")
@@ -53,9 +53,9 @@ def add_visitor(visitors_list):
     ids.add(new_id)
 
     # Capturar resto de información
-    name = validation.str_entry("Name: ")
-    species = validation.str_entry("Species: ")
-    status = validation.str_entry("Status: ")
+    name = utils.str_entry("Name: ")
+    species = utils.str_entry("Species: ")
+    status = utils.str_entry("Status: ")
 
     visitor = {
         "id": new_id,

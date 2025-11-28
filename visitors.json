@@ -42,8 +42,20 @@
         "status": "active"
     },
     {
-        "id": 123,
+        "id": "222",
         "name": "kokito",
+        "species": "other",
+        "status": "retired"
+    },
+    {
+        "id": "111",
+        "name": "abis",
+        "species": "android",
+        "status": "active"
+    },
+    {
+        "id": "777",
+        "name": "apo",
         "species": "other",
         "status": "retired"
     }

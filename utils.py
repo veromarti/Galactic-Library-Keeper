@@ -1,59 +1,105 @@
-import validation
-import os
+def int_entry(message, min=None, max=None):
 
-def clear():
-    if os.name == "nt":
-        os.system("cls")
-    else:
-        os.system("clear")
+    flag = False
+    while not flag:
+        try:
+            value = int(input(message).strip())
+            if min is not None and value < min or max is not None and value > max:
+                raise ValueError
+            return value
+        except ValueError:
+            print("\nWrong Entry. Try again\n")
 
-def principal_menu():
-    msg = ("\n===== GALACTIC LIBRARY KEEPER =====\n\n"
-        "1. LOGIN 🔐\n"
-        "2. EXIT ⛔\n\n"
-        "Choose an option: ")
+# def float_entry(message,min=None):
 
-    option = validation.int_entry(msg,1,2)
-    return option
+#     flag = False
+#     while not flag:
+#         try:
+#             value = float(input(message).strip())
+#             if min is not None and value < min:
+#                 raise ValueError
+#             return value
+#         except ValueError:
+#             print("\nWrong Entry. Try again\n")
 
-def admin_menu():
-    msg = ("\n===== ADMINISTRATORS MENU =====\n\n"
-        "1. Visitors Module\n"
-        "2. Artifacts Module\n"
-        "3. Back:\n\n"
-        "Choose an option: ")
+def str_entry(message):
 
-    option = validation.int_entry(msg,1,3)
-    return option
+    flag = False
+    while not flag:
+        value = input(message)
+        if not value:
+            print("The field cannot be empty \n")
+            continue
+        if not all(c.isalnum() or c.isspace() for c in value):
+            print("The field must include only letters or numbers\n")
+            continue
+        break
+    return value.lower()
 
-def visitors_menu():
-    msg = ("\n===== VISITORS MODULE =====\n\n"
-        "1. Visitor Registration\n"
-        "2. Show Visitors\n"
-        "3. Find Visitor\n"
-        "4. Update Status\n"
-        "5. Remove Visitor\n"
-        "6. Stats\n"
-        "7. Back\n\n"
-        "Choose an option: ")
+# def yes_no(decision):
 
-    option = validation.int_entry(msg,1,7)
-    return option
+#     flag = False
+#     while not flag:
+#         if not decision:
+#             print("\nChoose an option \n")
+#             return
+#         if not all(decision.lower()=="y" or decision.lower()=="n" or c.isdigit() for c in decision):
+#             print("\nInvalid option. Try Again\n")
+#             return
+#         break
+#     return decision.lower()
 
-def artifacts_menu():
-    msg = ("\n===== ARTIFACTS MODULE =====\n\n"
-        "1. Artifact Registration\n"
-        "2. Show Artifacts\n"
-        "3. Find Artifact\n"
-        "4. Artifacts Clasification\n"
-        "5. Remove Artifact\n"
-        "6. Stats\n"
-        "7. Back\n\n"
-        "Choose an option: ")
+# def file_ok(csv_file):
 
-    option = validation.int_entry(msg,1,7)
-    return option
+#     import csv
+#     header = ['name','price','quantity']
+#     invalid_rows = 0
+#     inventory = []
+#     products = 0
+    
+#     with open(csv_file, newline = "", encoding = "utf-8") as file:
+#         reader = csv.reader(file)
+#         is_file_ok = True
 
-def clasification_menu():
-    pass
+#         try:
+#             current_header = next(reader)
 
+#             if current_header != header:
+#                 print("Wrong CSV header")
+#                 is_file_ok = False
+#                 return is_file_ok, inventory, invalid_rows, products
+            
+
+#             for num, row in enumerate(reader, start=2):
+#                 if len(row) != 3:
+#                     print("Row #" + str(num) + " is invalid. Ommited row")
+#                     invalid_rows += 1
+#                     continue
+
+#                 name, price, quantity = row
+
+#                 try:
+#                     price = float(price)
+#                     quantity = int(quantity)
+
+#                     if price <= 0 or quantity<= 0:
+#                         raise ValueError
+            
+#                 except ValueError:
+#                     print("Row #" + str(num) + " is invalid. Ommited row due to price/quantity cannot be a negative value")
+#                     invalid_rows += 1
+#                     continue
+
+#                 inventory.append({
+#                     'name':name,
+#                     'price':float(price),
+#                     'quantity':int(quantity)
+#                 })
+
+#                 products += 1
+        
+#         except StopIteration:
+#             print("CSV file cannot not be empy")
+#             is_file_ok = False
+
+#     return is_file_ok, inventory, invalid_rows, products     

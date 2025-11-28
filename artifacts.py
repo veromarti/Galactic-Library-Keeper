@@ -1,4 +1,4 @@
-import validation
+import utils
 import csv
 
 def load_artifacts():
@@ -8,6 +8,12 @@ def load_artifacts():
         for row in reader:
             artifacts_list.append(row)
         return artifacts_list
+    
+def save_artifacts(artifacts):
+    with open('artifacts.csv', 'w', newline='',encoding='utf-8') as file:
+        writer = csv.DictWriter(file,fieldnames=['id','description','rarity','status'])
+        writer.writeheader()
+        writer.writerows(artifacts)
 
 def add_artifact(artifacts_list):
     ids = id_list(artifacts_list)
@@ -17,17 +23,20 @@ def add_artifact(artifacts_list):
     print("\nEnter Artifact Information\n")
 
     while existing_id:
-        id = validation.int_entry("ID: ")
+        id = utils.int_entry("ID: ")
         existing_id = find_id(id,ids)
 
-    name = validation.str_entry("Name: ")
-    rarity = validation.str_entry("Rarity: ")
-    status = validation.str_entry("Status: ")
+    name = utils.str_entry("Name: ")
+    rarity = utils.str_entry("Rarity: ")
+    status = utils.str_entry("Status: ")
     artifact ={'id': id, 
               'description': name, 
               'rarity': rarity,
               'status': status}
     artifacts_list.append(artifact)
+
+    save_artifacts(artifacts_list)
+
     return artifacts_list
 
 def id_list(artifacts_list):
