@@ -54,6 +54,17 @@ def artifacts_menu():
     option = utils.int_entry(msg,1,7)
     return option
 
+def visitors_stats():
+    msg = ("\n===== STATISTICS MODULE =====\n\n"
+        "1. Total Visitors\n"
+        "2. Visitors per Species\n"
+        "3. Active VS Retired Visitors\n"
+        "4. Back\n"
+        "Choose an option: ")
+
+    option = utils.int_entry(msg,1,4)
+    return option
+
 def clasification_menu():
     pass
 

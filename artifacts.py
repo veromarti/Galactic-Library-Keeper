@@ -76,6 +76,24 @@ def find_artifact(id, artifacts_list):
             return item, element
     return None, None
 
+def remove_artifact(artifact, artifacts):
+    """This function receives the name of the book to be updated,the list of dictionaries, it uses 
+        the find_book() function to obtain the element position inside the inventory list, 
+        then it removes the product using .pop() at the end the .csv file is updated accordingly and 
+        returns the updated list of dictionaries
+    """
+
+    item, position = find_artifact(artifact, artifacts)
+    if position is not None:
+        artifacts.pop(position)
+        save_artifacts(artifacts)
+        print("\nArtifact removed successfully")
+        show_artifacts(artifacts)
+    else:print("No artifact found\n")
+    return artifacts
+
+
+
 def art_clasification(artifacts_list,**kwargs):
 
     print("\nClassification of artifacts by:", kwargs)

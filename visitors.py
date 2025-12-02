@@ -29,7 +29,7 @@ def add_visitor(visitors_list):
     ids = id_list(visitors_list)
     print(ids)
     existing_id = True
-    print("- - - Regitering Visitor - - -\n")
+    print("- - - Registering Visitor - - -\n")
     print("\nEnter Visitor Information\n")
 
     id = utils.int_entry("ID: ")
@@ -62,9 +62,7 @@ def saveJson(visitors):
     with open('visitors.json', 'w', newline='',encoding='utf-8') as file:
         json.dump(visitors, file, indent=4, ensure_ascii=False)
 
-def show_visitors(*args):
-
-    visitors = load_visitors()
+def show_visitors(visitors,*args):
 
     if not visitors:
         print("\nNo visitors recorded\n")
@@ -129,6 +127,62 @@ def update_visitor(ID, visitors):
 
     else:print("\nNo visitor found\n")
     return visitors
+
+def remove_visitor(visitor, visitors):
+    """This function receives the name of the book to be updated,the list of dictionaries, it uses 
+        the find_book() function to obtain the element position inside the inventory list, 
+        then it removes the product using .pop() at the end the .csv file is updated accordingly and 
+        returns the updated list of dictionaries
+    """
+
+    item, position = find_visitor(visitor, visitors)
+    if position is not None:
+        visitors.pop(position)
+        save_visitors(visitors)
+        print("\nVisitor removed successfully")
+        show_visitors(visitors)
+        saveJson(visitors)
+    else:print("No visitor found\n")
+    return visitors
+
+def visitors_species(visitors):
+    cont_other = 0
+    cont_human = 0
+    cont_android = 0
+    species = []
+
+    for item in visitors:
+        if item["species"].lower() == 'other':
+            cont_other += 1
+        elif item["species"].lower() == 'human':
+            cont_human += 1
+        elif item["species"].lower() == 'android':
+            cont_android += 1
+    species.append({"Human":cont_human})
+    species.append({"Android":cont_android})
+    species.append({"Other":cont_other})
+
+    return(species)
+
+def filter_status(visitors):
+    cont = 0
+
+    if not visitors:
+        print("\nNo visitors recorded\n")
+        return
+
+    for item in visitors:
+        if item['status'].lower() == 'retired':
+            cont += 1
+    
+    dict_status = {'retired':cont,
+                   'active':len(visitors)-cont
+    }
+
+    return dict_status
+
+        
+
 
 def listar_visitantes(*args):
     """
