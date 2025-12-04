@@ -136,13 +136,9 @@ while flag_login:
                 case 3:
                     print(artifacts.find_artifact(123,art_list))
                 case 4:
-                    clasification_menu()
-                    
-                    artifacts.art_clasification(art_list,rarity='prohibid')
-                    
-                    artifacts.art_clasification(art_list,rarity="low", status="stored")
-                
-                    artifacts.art_clasification(art_list, "rarity=high", "status=stored")              
+                    artifacts.art_clasification(art_list,rarity="low")
+                    artifacts.art_clasification(art_list, rarity="high")
+                    artifacts.art_clasification(art_list,rarity='prohibid')             
                 case 5:
                     pass
                 case 6:

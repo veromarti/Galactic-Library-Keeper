@@ -93,11 +93,10 @@ def remove_artifact(artifact, artifacts):
     return artifacts
 
 
-
 def art_clasification(artifacts_list,**kwargs):
 
     print("\nClassification of artifacts by:", kwargs)
-    filter = artifacts_list[:] #copia independiente de la lista original para no alterar los datos originales
+    filter = artifacts_list[:] 
 
     for key, value in kwargs.items():
         key = key.lower()
@@ -121,104 +120,3 @@ def art_clasification(artifacts_list,**kwargs):
             print(f" - ID: {art['id']}, Description: {art['description'].capitalize()}, Rarity: {art['rarity'].capitalize()}, Status: {art['status'].capitalize()}")
 
     return filter
-
-
-
-
-
-def art_clasification(artifacts_list, *args):
-
-    print("\nClassification of artifacts by:", args)
-
-    # Lista donde se guardarán los artefactos filtrados
-    filtrados = []
-
-    # Procesar cada condición enviada en *args
-    for condicion in args:
-
-        # Separar clave y valor → ejemplo: "rarity=high"
-        if "=" in condicion:
-            partes = condicion.split("=")
-            clave = partes[0].lower()
-            valor = partes[1].lower()
-        else:
-            print(f"Condición inválida: {condicion}")
-            continue
-
-        # Crear una lista temporal para esta condición
-        filtrados_temporales = []
-
-        # Recorrer cada artefacto
-        for artifact in artifacts_list:
-
-            # Obtener el valor dentro del diccionario
-            valor_art = artifact.get(clave, "").lower()
-
-            # Comparar
-            if valor_art == valor:
-                filtrados_temporales.append(artifact)
-
-        # Reemplazar filtrados con los resultados más recientes
-        filtrados = filtrados_temporales
-
-    # Mostrar resultados
-    if not filtrados:
-        print("\nNo Artifacts Found")
-    else:
-        print(f"\n{len(filtrados)} artifact(s) found:\n")
-        for art in filtrados:
-            print(
-                " - ID:", art["id"],
-                ", Description:", art["description"].capitalize(),
-                ", Rarity:", art["rarity"].capitalize(),
-                ", Status:", art["status"].capitalize(),
-                sep=""
-            )
-
-    return filtrados
-
-
-
-
-
-# def update_product(product, inventory, new_price = None, new_quant = None):
-
-
-#     item, element = find_product(product, inventory)
-#     if item is not None:
-#         if new_price is not None:
-#             item['price'] = new_price
-#         if new_quant is not None:
-#             item['quantity'] = new_quant
-#         print("\nProduct updated succesfully")
-#     else:print("\nNo product found\n")
-#     return inventory    
-
-# def remove_product(product, inventory):
-
-
-#     print("- - - Removing product - - -")
-#     show_inventory(inventory)
-#     item, position = find_product(product, inventory)
-#     if position is not None:
-#         inventory.pop(position)
-#         print("Product removed successfully")
-#         show_inventory(inventory)
-#     else:print("No product found\n")
-#     return inventory    
-
-# def fusion(inventory,inventory_csv):
-
-
-#     final_inventory = inventory_csv
-#     for item in inventory:
-#         found_product, x = find_product(item['name'],inventory_csv)
-#         if found_product:
-#             found_product['price'] = item['price']
-#             found_product['quantity'] = item['quantity']
-#         else:
-#             final_inventory.append(item)
-#     return final_inventory
-        
-# def exit():
-#     pass
