@@ -132,7 +132,6 @@ JSON provides human-readable backups.
 All data survives program shutdown.
 
 ## Flowchart
-
                              ┌───────────────────────┐
                              │     SYSTEM START      │
                              └───────────┬───────────┘
