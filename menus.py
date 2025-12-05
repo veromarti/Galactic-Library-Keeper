@@ -20,7 +20,7 @@ def admin_menu():
     msg = ("\n===== ADMINISTRATORS MENU =====\n\n"
         "1. Visitors Module\n"
         "2. Artifacts Module\n"
-        "3. Back:\n\n"
+        "3. Back\n\n"
         "Choose an option: ")
 
     option = utils.int_entry(msg,1,3)

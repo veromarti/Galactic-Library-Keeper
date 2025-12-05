@@ -60,7 +60,7 @@ def saveJson(visitors):
     with open('visitors.json', 'w', newline='',encoding='utf-8') as file:
         json.dump(visitors, file, indent=4, ensure_ascii=False)
 
-def show_visitors(visitors):
+def show_visitors(visitors, *args):
 
     if not visitors:
         print("\nNo visitors recorded\n")
@@ -68,14 +68,30 @@ def show_visitors(visitors):
 
     print("\n-------- VISITORS LIST --------\n")
     print("--ID--|--NAME--|--SPECIES--|--STATUS--")
+
+
     for v in visitors:
         visitor_tuple = (
             v["id"],
             v["name"],
             v["species"],
             v["status"]
-        )        
-        print(visitor_tuple)
+        )
+
+        if not args:
+            print(visitor_tuple)
+            continue     
+
+        match = True
+        for filter in args:
+            filter = str(filter).lower()
+
+            if not any(filter in field.lower() for field in visitor_tuple):
+                match = False
+                break
+
+        if match:
+            print(visitor_tuple)   
             
 
 def find_visitor(ID, visitors):
@@ -155,10 +171,7 @@ def filter_status(visitors):
     }
 
     return dict_status
-
         
-
-
 def listar_visitantes(*args):
     """
     Lista visitantes desde el archivo CSV.

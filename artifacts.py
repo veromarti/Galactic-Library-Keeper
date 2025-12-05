@@ -17,9 +17,8 @@ def save_artifacts(artifacts):
 
 def add_artifact(artifacts_list):
     ids = id_list(artifacts_list)
-    print(ids)
     existing_id = True
-    print("- - - Adding Artifact - - -\n")
+    print("- - - ADDING ARTIFACT - - -\n")
     print("\nEnter Artifact Information\n")
 
     while existing_id:
@@ -29,7 +28,7 @@ def add_artifact(artifacts_list):
     name = utils.str_entry("Name: ")
     rarity = utils.str_entry("Rarity: ")
     status = utils.str_entry("Status: ")
-    artifact ={'id': id, 
+    artifact ={'id': str(id), 
               'description': name, 
               'rarity': rarity,
               'status': status}
@@ -117,12 +116,7 @@ def art_clasification(artifacts_list,**kwargs):
     return filter
 
 def remove_artifact(artifact, artifacts_list):
-    """This function receives the name of the book to be updated,the list of dictionaries, it uses 
-        the find_book() function to obtain the element position inside the inventory list, 
-        then it removes the product using .pop() at the end the .csv file is updated accordingly and 
-        returns the updated list of dictionaries
-    """
-
+    
     item, position = find_artifact(artifact, artifacts_list)
     if position is not None:
         artifacts_list.pop(position)

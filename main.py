@@ -6,16 +6,9 @@ import visitors
 from menus import clear, principal_menu, admin_menu, visitors_menu, artifacts_menu, artifacts_stats, visitors_stats
 
 flag_menu = False
-
-# user='leahMaria11'
-# password='kokito23'
+flag_login = False
 
 admin_flag,admin = storage.load_file('admin_access.csv')
-
-# print(admin)
-# print(admin_flag)
-
-# auth.admin_login(admin)
 
 while not flag_menu:
     op = principal_menu()
@@ -24,7 +17,11 @@ while not flag_menu:
         flag_menu = False
         flag_login = auth.admin_login(admin)
 
-    if flag_login:flag_menu = True
+        if flag_login:flag_menu = True
+    elif op ==2:
+        flag_menu = True
+        clear()
+        print("\nExiting System")
 
 while flag_login:
     clear()
@@ -119,6 +116,7 @@ while flag_login:
                     case 7:
                         clear()
                         flag_visitors = True
+                        flag_menu = False
         case 2:
             art_list = artifacts.load_artifacts()
             flag_arts = False
@@ -195,11 +193,14 @@ while flag_login:
                                 case 4:
                                     clear()
                                     flag_stats_art = True
+                                    flag_menu = False
                     case 7:
                         clear()
                         flag_arts = True
+                        flag_menu = False
         case 3:
             clear()
             flag_menu = True
+            flag_login = False
             print("\nThanks for using the Galactic System")
     

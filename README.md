@@ -133,36 +133,53 @@ All data survives program shutdown.
 
 ## Flowchart
 
-SYSTEM START
-  |
-  v
-Load admin_access.csv
-  |
-  v
-admin_login (3 attempts)
-  |
-  v
-[Success?] ---no---> END - Access Locked
-   |
-  yes
-   v
-MAIN MENU
-  |- Visitors
-  |    -> Display Visitors Menu
-  |       - Register Visitor -> Save CSV -> Return
-  |       - List Visitors    -> Save CSV -> Return
-  |       - Update Status    -> Save JSON-> Return
-  |       - Delete Visitor   -> Save JSON-> Return
-  |
-  |- Artifacts
-       -> Display Artifacts Menu
-          - Register Artifact -> Save CSV -> Return
-          - List Artifacts     -> Save CSV -> Return
-          - Classify          -> Show Results -> Return
-          - Delete Artifact   -> Show Results -> Return
+```mermaid
+flowchart TD
 
-Exit + Save Data -> SYSTEM END
+    A([SYSTEM START])
+    A --> B[Load admin_access.csv]
+    B --> C[admin_login (3 attempts)]
+    C --> D{Login OK?}
 
+    D -->|No| Z([END - Access Locked])
+    D -->|Yes| E[MAIN MENU]
+
+    %% MAIN OPTIONS
+    E --> V[Visitors Module]
+    E --> R[Artifacts Module]
+    E --> X([Exit + Save Data])
+
+    %% VISITORS
+    V --> V0[Display Visitors Menu]
+    V0 --> V1[Register Visitor]
+    V0 --> V2[List Visitors]
+    V0 --> V3[Update Status]
+    V0 --> V4[Delete Visitor]
+
+    V1 --> V5[Save CSV]
+    V2 --> V5
+    V3 --> V6[Save JSON]
+    V4 --> V6
+    V5 --> V0
+    V6 --> V0
+
+    %% ARTIFACTS
+    R --> A0[Display Artifacts Menu]
+    A0 --> A1[Register Artifact]
+    A0 --> A2[List Artifacts]
+    A0 --> A3[Classify]
+    A0 --> A4[Delete Artifact]
+
+    A1 --> A5[Save CSV]
+    A2 --> A5
+    A3 --> A6[Show Results]
+    A4 --> A6
+    A5 --> A0
+    A6 --> A0
+
+    %% END
+    X --> END([SYSTEM END])
+```
 
 ## Author
 Created by: Verónica Martínez Cadavid
