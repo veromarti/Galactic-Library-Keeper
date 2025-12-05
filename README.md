@@ -131,6 +131,184 @@ JSON provides human-readable backups.
 
 All data survives program shutdown.
 
+## Flowchart
+
+┌───────────────────────┐
+│     SYSTEM START      │
+└───────────┬───────────┘
+            │
+            ▼
+┌───────────────────────────────────┐
+│ Load admin_access.csv (auth)      │
+└───────────────┬───────────────────┘
+                │
+                ▼
+┌──────────────────────────────────────────────┐
+│ admin_login()  (recursive, 3 attempts)       │
+└───────────────┬──────────────────────────────┘
+                │
+         Success? (yes/no)
+        ┌───────────────┴────────────────┐
+        │                                │
+        ▼                                ▼
+┌────────────────────────┐     ┌───────────────────────────┐
+│    Show MAIN MENU      │     │   END (Access Locked)      │
+└───────────┬────────────┘     └───────────────────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│ 1. Visitors Management  │
+│ 2. Artifacts Management │
+│ 3. Exit                 │
+└──────────┬──────────────┘
+           │
+ ┌─────────┼─────────────────────────────┐
+ │         │                             │
+ ▼         ▼                             ▼
+Visitors   Artifacts                EXIT PROGRAM
+Module     Module                   + Save Data
+
+
+Visitors Module
+
+┌─────────────────────────────┐
+│     Display VISITORS MENU   │
+└──────────────┬──────────────┘
+               │
+ ┌─────────────┼───────────────────────────────┬──────────────────────────┬─────────────────────────┐
+ │             │                                │                          │                         │
+ ▼             ▼                                ▼                          ▼
+Register   List (*args)                  Update Status            Delete Visitor
+Visitor    (filters)                     (active/retired)
+└──────────────┬───────────────────────────────┴──────────────────────────┬─────────────────────────┘
+               ▼                                                          ▼
+     ┌───────────────────┐                                  ┌────────────────────┐
+     │ Save CSV          │                                  │ Save JSON          │
+     └──────────┬────────┘                                  └──────────┬─────────┘
+                │                                                     │
+                └──────────────────────────┬──────────────────────────┘
+                                           ▼
+                               ┌────────────────────┐
+                               │ Return to Visitors │
+                               │        Menu        │
+                               └────────────────────┘
+
+
+Artifacts Module
+
+┌──────────────────────────────┐
+│    Display ARTIFACTS MENU    │
+└──────────────┬───────────────┘
+               │
+ ┌─────────────┼──────────────────────────────┬─────────────────────────────┬─────────────────────────┐
+ │             │                              │                             │                         │
+ ▼             ▼                              ▼                             ▼
+Register   List Artifacts             Classify (**kwargs)            Delete Artifact
+Artifact   (all or filtered)          rarity, status, etc.
+└──────────────┬──────────────────────────────┴─────────────────────────────┬─────────────────────────┘
+               ▼                                                            ▼
+     ┌───────────────────┐                                      ┌────────────────────┐
+     │ Save CSV          │                                      │ Show Results       │
+     └──────────┬────────┘                                      └──────────┬─────────┘
+                │                                                     │
+                └──────────────────────────┬──────────────────────────┘
+                                           ▼
+                               ┌──────────────────────┐
+                               │ Return to Artifacts  │
+                               │        Menu          │
+                               └──────────────────────┘
+
+
+┌───────────────────────────────┐
+│           SYSTEM END          │
+└───────────────────────────────┘
+
+
+flowchart TD
+%% ===========================================
+%%  STYLES
+%% ===========================================
+classDef start fill:#4c8bf5,stroke:#1b4bb7,stroke-width:2,color:white,font-weight:bold;
+classDef process fill:#e3eaff,stroke:#4c8bf5,stroke-width:1.5;
+classDef decision fill:#fff4d6,stroke:#c28a00,stroke-width:2,color:#8a6d00;
+classDef end fill:#d9534f,stroke:#b52b27,color:white,font-weight:bold;
+classDef module fill:#5cb85c,stroke:#357a38,color:white,font-weight:bold;
+classDef sub fill:#eaffea,stroke:#5cb85c;
+classDef action fill:#f5f5f5,stroke:#999;
+
+%% ===========================================
+%%  SYSTEM START
+%% ===========================================
+A([SYSTEM START]):::start --> B[Load admin_access.csv<br/>(auth)]:::process
+B --> C[admin_login()<br/>(recursive, 3 attempts)]:::process
+C --> D{Success?}:::decision
+
+D -->|Yes| E[Show MAIN MENU]:::process
+D -->|No| F([END<br/>Access Locked]):::end
+
+%% ===========================================
+%% MAIN MENU
+%% ===========================================
+E --> G[Visitors Management]:::module
+E --> H[Artifacts Management]:::module
+E --> I([Exit Program<br/>and Save Data]):::end
+
+%% ===========================================
+%% VISITORS MODULE
+%% ===========================================
+subgraph V[VISITORS MODULE]
+direction TB
+
+VM[Display Visitors Menu]:::sub
+
+VM --> VR[Register Visitor]:::action
+VM --> VL[List Visitors <br/>(*args filters)]:::action
+VM --> VU[Update Status <br/>(active/retired)]:::action
+VM --> VD[Delete Visitor]:::action
+
+VR --> VSCSV[Save CSV]:::process
+VL --> VSCSV
+VU --> VSJSON[Save JSON]:::process
+VD --> VSJSON
+
+VSCSV --> VRM[Return to Visitors Menu]:::sub
+VSJSON --> VRM
+
+end
+
+G --> V
+
+%% ===========================================
+%% ARTIFACTS MODULE
+%% ===========================================
+subgraph A2[ARTIFACTS MODULE]
+direction TB
+
+AM[Display Artifacts Menu]:::sub
+
+AM --> AR[Register Artifact]:::action
+AM --> AL[List Artifacts <br/>(all or filtered)]:::action
+AM --> AC[Classify <br/>(kwargs: rarity, status, etc.)]:::action
+AM --> AD[Delete Artifact]:::action
+
+AR --> ASC[Save CSV]:::process
+AL --> ASC
+AC --> ASR[Show Results]:::process
+AD --> ASR
+
+ASC --> ARM[Return to Artifacts Menu]:::sub
+ASR --> ARM
+
+end
+
+H --> A2
+
+%% ===========================================
+%% SYSTEM END
+%% ===========================================
+I --> Z([SYSTEM END]):::end
+
+
 ## Author
 Created by: Verónica Martínez Cadavid
 2025
