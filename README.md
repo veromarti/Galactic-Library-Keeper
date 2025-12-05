@@ -132,84 +132,36 @@ JSON provides human-readable backups.
 All data survives program shutdown.
 
 ## Flowchart
-flowchart TD
 
-%% ===============================
-%%          SYSTEM START
-%% ===============================
+SYSTEM START
+  |
+  v
+Load admin_access.csv
+  |
+  v
+admin_login (3 attempts)
+  |
+  v
+[Success?] ---no---> END - Access Locked
+   |
+  yes
+   v
+MAIN MENU
+  |- Visitors
+  |    -> Display Visitors Menu
+  |       - Register Visitor -> Save CSV -> Return
+  |       - List Visitors    -> Save CSV -> Return
+  |       - Update Status    -> Save JSON-> Return
+  |       - Delete Visitor   -> Save JSON-> Return
+  |
+  |- Artifacts
+       -> Display Artifacts Menu
+          - Register Artifact -> Save CSV -> Return
+          - List Artifacts     -> Save CSV -> Return
+          - Classify          -> Show Results -> Return
+          - Delete Artifact   -> Show Results -> Return
 
-A([SYSTEM START]) --> B[Load admin_access.csv (auth)]
-B --> C[admin_login() (recursive, 3 attempts)]
-C --> D{Success?}
-
-D -->|Yes| E[Show MAIN MENU]
-D -->|No| F([END - Access Locked])
-
-%% ===============================
-%%          MAIN MENU
-%% ===============================
-
-E --> G[Visitors Management]
-E --> H[Artifacts Management]
-E --> I([Exit Program and Save Data])
-
-%% ===============================
-%%         VISITORS MODULE
-%% ===============================
-
-subgraph VISITORS_MODULE [Visitors Module]
-direction TB
-
-VM[Display Visitors Menu]
-
-VM --> VR[Register Visitor]
-VM --> VL[List (filters *args)]
-VM --> VU[Update Status (active/retired)]
-VM --> VD[Delete Visitor]
-
-VR --> VS1[Save CSV]
-VL --> VS1
-VU --> VS2[Save JSON]
-VD --> VS2
-
-VS1 --> VRM[Return to Visitors Menu]
-VS2 --> VRM
-
-end
-
-G --> VM
-
-%% ===============================
-%%        ARTIFACTS MODULE
-%% ===============================
-
-subgraph ARTIFACTS_MODULE [Artifacts Module]
-direction TB
-
-AM[Display Artifacts Menu]
-
-AM --> AR[Register Artifact]
-AM --> AL[List Artifacts (all or filtered)]
-AM --> AC[Classify (rarity, status, etc.)]
-AM --> AD[Delete Artifact]
-
-AR --> AS1[Save CSV]
-AL --> AS1
-AC --> AS2[Show Results]
-AD --> AS2
-
-AS1 --> ARM[Return to Artifacts Menu]
-AS2 --> ARM
-
-end
-
-H --> AM
-
-%% ===============================
-%%          END
-%% ===============================
-
-I --> Z([SYSTEM END])
+Exit + Save Data -> SYSTEM END
 
 
 ## Author
