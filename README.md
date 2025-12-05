@@ -136,18 +136,18 @@ flowchart TD
 
     A([SYSTEM START])
     A --> B[Load admin_access.csv]
-    B --> C[admin_login (3 attempts)]
+    B --> C[admin_login - 3 attempts]
     C --> D{Login OK?}
 
     D -->|No| Z([END - Access Locked])
     D -->|Yes| E[MAIN MENU]
 
-    %% MAIN OPTIONS
+    %% MAIN MENU
     E --> V[Visitors Module]
     E --> R[Artifacts Module]
     E --> X([Exit + Save Data])
 
-    %% VISITORS
+    %% VISITORS MODULE
     V --> V0[Display Visitors Menu]
     V0 --> V1[Register Visitor]
     V0 --> V2[List Visitors]
@@ -161,7 +161,7 @@ flowchart TD
     V5 --> V0
     V6 --> V0
 
-    %% ARTIFACTS
+    %% ARTIFACTS MODULE
     R --> A0[Display Artifacts Menu]
     A0 --> A1[Register Artifact]
     A0 --> A2[List Artifacts]
