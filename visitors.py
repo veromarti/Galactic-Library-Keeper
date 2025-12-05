@@ -172,38 +172,3 @@ def filter_status(visitors):
 
     return dict_status
         
-def listar_visitantes(*args):
-    """
-    Lista visitantes desde el archivo CSV.
-    
-    Si *args está vacío → muestra todos los visitantes.
-    Si *args tiene valores → filtra por coincidencias exactas.
-    
-    Cada visitante se imprime como una TUPLA.
-    """
-
-    print("\n--- LISTA DE VISITANTES ---\n")
-
-    with open("visitors.csv", mode="r", encoding="utf-8") as f:
-        reader = csv.reader(f)
-
-        encabezado = next(reader, None)
-        print(encabezado)
-
-        for fila in reader:
-            visitante = tuple(fila)
-
-            if not args:
-                print(visitante)
-                continue
-
-            coincide = True
-            for filtro in args:
-                filtro = str(filtro).lower()
-
-                if not any(filtro in campo.lower() for campo in visitante):
-                    coincide = False
-                    break
-
-            if coincide:
-                print(visitante)

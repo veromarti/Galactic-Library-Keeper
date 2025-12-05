@@ -56,9 +56,7 @@ Interactive terminal menus guide the administrator through every feature.
 
 ## Functions Using *args, **kwargs, and Recursion
 - Functions using *args
-visitors.listar_visitantes(*args)
-
-Reads visitors from the CSV file.
+visitors.show_visitors(visitors,*args)
 
 If args are provided, visitors are filtered by matching any argument with any field.
 
