@@ -77,11 +77,6 @@ def find_artifact(id, artifacts_list):
     return None, None
 
 def remove_artifact(artifact, artifacts):
-    """This function receives the name of the book to be updated,the list of dictionaries, it uses 
-        the find_book() function to obtain the element position inside the inventory list, 
-        then it removes the product using .pop() at the end the .csv file is updated accordingly and 
-        returns the updated list of dictionaries
-    """
 
     item, position = find_artifact(artifact, artifacts)
     if position is not None:
@@ -120,3 +115,61 @@ def art_clasification(artifacts_list,**kwargs):
             print(f" - ID: {art['id']}, Description: {art['description'].capitalize()}, Rarity: {art['rarity'].capitalize()}, Status: {art['status'].capitalize()}")
 
     return filter
+
+def remove_artifact(artifact, artifacts_list):
+    """This function receives the name of the book to be updated,the list of dictionaries, it uses 
+        the find_book() function to obtain the element position inside the inventory list, 
+        then it removes the product using .pop() at the end the .csv file is updated accordingly and 
+        returns the updated list of dictionaries
+    """
+
+    item, position = find_artifact(artifact, artifacts_list)
+    if position is not None:
+        artifacts_list.pop(position)
+        save_artifacts(artifacts_list)
+        print("\nArtifact removed successfully")
+        show_artifacts(artifacts_list)
+    else:print("No artifact found\n")
+    return artifacts_list
+
+def artifacts_rarity(artifacts_list):
+    cont_low = 0
+    cont_high = 0
+    cont_prohibid = 0
+    cont_medium = 0
+    raritys = []
+
+    for item in artifacts_list:
+        if item["rarity"].lower() == 'low':
+            cont_low += 1
+        elif item["rarity"].lower() == 'high':
+            cont_high += 1
+        elif item["rarity"].lower() == 'medium':
+            cont_medium += 1
+        elif item["rarity"].lower() == 'prohibid':
+            cont_prohibid += 1
+    raritys.append({"Low":cont_low})
+    raritys.append({"High":cont_high})
+    raritys.append({"Medium":cont_medium})
+    raritys.append({"Prohibid":cont_prohibid})
+
+    return(raritys)
+
+def artifacts_status(artifacts_list):
+    cont_sto = 0
+    cont_study = 0
+    cont_destroyed = 0
+    status = []
+
+    for item in artifacts_list:
+        if item["status"].lower() == 'stored':
+            cont_sto += 1
+        elif item["status"].lower() == 'in study':
+            cont_study += 1
+        elif item["status"].lower() == 'destroyed':
+            cont_destroyed += 1
+    status.append({"Stored":cont_sto})
+    status.append({"In Study":cont_study})
+    status.append({"Destroyed":cont_destroyed})
+
+    return(status)

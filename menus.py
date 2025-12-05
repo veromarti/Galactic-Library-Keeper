@@ -65,6 +65,14 @@ def visitors_stats():
     option = utils.int_entry(msg,1,4)
     return option
 
-def clasification_menu():
-    pass
+def artifacts_stats():
+    msg = ("\n===== STATISTICS MODULE =====\n\n"
+        "1. Total Artifacts\n"
+        "2. Artifacts per Rarity\n"
+        "3. Artifacts per Status\n"
+        "4. Back\n"
+        "Choose an option: ")
+
+    option = utils.int_entry(msg,1,4)
+    return option
 

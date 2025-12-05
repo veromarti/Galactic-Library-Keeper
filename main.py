@@ -3,7 +3,7 @@ import auth
 import utils
 import artifacts
 import visitors
-from menus import clear, principal_menu, admin_menu, visitors_menu, artifacts_menu, clasification_menu, visitors_stats
+from menus import clear, principal_menu, admin_menu, visitors_menu, artifacts_menu, artifacts_stats, visitors_stats
 
 flag_menu = False
 
@@ -27,41 +27,44 @@ while not flag_menu:
     if flag_login:flag_menu = True
 
 while flag_login:
+    clear()
     op = admin_menu()
 
     match op:
         case 1:
+            clear()
             visitors_list = visitors.load_visitors()
-            print(visitors_list)
-            
             flag_visitors = False
 
             while not flag_visitors:
+                clear()
                 option = visitors_menu()
 
                 match option:
                     case 1:
+                        clear()
                         visitors_list = visitors.add_visitor(visitors_list)
-                        print(visitors_list)
-                    case 2:
-                        visitors.show_visitors()
                         print(input("\nPress enter to go back "))
-                        #falta ponerlo lindo
+                    case 2:
+                        clear()
+                        visitors.show_visitors(visitors_list)
+                        print(input("\nPress enter to go back "))
                     case 3:
-                        print("- - - Finding Visitor - - -\n")
+                        clear()
+                        print("- - - FINDING VISITOR - - -\n")
                         visitor_ID = utils.int_entry("Visitor ID: ",0,999)
                         found_ID,x = visitors.find_visitor(visitor_ID, visitors_list)
                         if found_ID is not None:
-                            print("- - - - - - Search result - - - - - -\n") 
+                            print("\n- - - - - - Search result - - - - - -\n") 
                             print(f"Visitor: {found_ID['name'].capitalize()} | Species: {found_ID['species'].capitalize()} | Status: {found_ID['status'].capitalize()}")
                 
                         else:
                             print("\nNo visitor found\n")
                         print(input("\nPress enter to go back "))
-
                     case 4:
+                        clear()
                         print("\n- - - - - - - UPDATING STATUS - - - - - - -")
-                        visitors.show_visitors()
+                        visitors.show_visitors(visitors_list)
                         print("\n")
                         visitor_ID = utils.int_entry("Visitor ID: ",0,999)
                         found_ID,x = visitors.find_visitor(visitor_ID, visitors_list)
@@ -73,23 +76,16 @@ while flag_login:
                         else:
                             print("\nNo Visitor found\n")
                             print(input("\nPress enter to go back "))
-                            
-                        # pass
-                        # clasification_menu()
-                        
-                        # artifacts.art_clasification(art_list,rarity='prohibid')
-                        
-                        # artifacts.art_clasification(art_list,rarity="low", status="stored")
                     case 5:
                         clear()
-                        visitors.show_visitors()
+                        visitors.show_visitors(visitors_list)
                         print("\n")
                         visitor = utils.int_entry("Visitor ID: ")
                         visitors_list = visitors.remove_visitor(visitor,visitors_list)
                         print(input("\nPress enter to go back "))
                         clear()
-                        
                     case 6:
+                        clear()
                         flag_stats = False
 
                         while not flag_stats:
@@ -117,41 +113,91 @@ while flag_login:
                                     #falt aponerlo lindo
 
                                 case 4:
+                                    clear()
                                     flag_stats = True
 
                     case 7:
+                        clear()
                         flag_visitors = True
         case 2:
             art_list = artifacts.load_artifacts()
-            print(art_list)
-            option = artifacts_menu()
+            flag_arts = False
 
-            match option:
-                case 1:
-                    art_list = artifacts.add_artifact(art_list)
-                    print(art_list)
-                case 2:
-                    artifacts.show_artifacts(art_list)
-                    print(input("\nPress enter to go back "))
-                case 3:
-                    print(artifacts.find_artifact(123,art_list))
-                case 4:
-                    artifacts.art_clasification(art_list,rarity="low")
-                    artifacts.art_clasification(art_list, rarity="high")
-                    artifacts.art_clasification(art_list,rarity='prohibid')             
-                case 5:
-                    pass
-                case 6:
-                    clear()
-                    artifacts.show_artifacts(art_list)
-                    print("\n")
-                    art = utils.int_entry("Artifact ID: ")
-                    art_list = visitors.remove_visitor(art,art_list)
-                    print(input("\nPress enter to go back "))
-                    clear()
-                case 7:
+            while not flag_arts:
+                clear()
+                option = artifacts_menu()
+
+                match option:
+                    case 1:
+                        clear()
+                        art_list = artifacts.add_artifact(art_list)
+                    case 2:
+                        clear()
+                        artifacts.show_artifacts(art_list)
+                        print(input("\nPress enter to go back "))
+                        clear()
+                    case 3:
+                        clear()
+                        print("- - - FINDING ARTIFACT - - -\n")
+                        artifact_ID = utils.int_entry("Artifact ID: ",0,999)
+                        found_ID,x = artifacts.find_artifact(artifact_ID, art_list)
+                        if found_ID is not None:
+                            print("\n- - - - - - Search result - - - - - -\n") 
+                            print(f"Artifact ID: {found_ID['id']} | Description: {found_ID['description'].capitalize()} | Rarity: {found_ID['rarity'].capitalize()} | Status: {found_ID['status'].capitalize()}")
                     
-                    pass
+                        else:
+                            print("\nNo artifact found\n")
+                            print(input("\nPress enter to go back "))
+                        clear()
+                    case 4:
+                        clear()
+                        artifacts.art_clasification(art_list,rarity="low")
+                        artifacts.art_clasification(art_list, rarity="high")
+                        artifacts.art_clasification(art_list,rarity='prohibid') 
+                        print(input("\nPress enter to go back "))
+                        clear()            
+                    case 5:
+                        clear()
+                        artifacts.show_artifacts(art_list)
+                        print("\n")
+                        artifact = utils.int_entry("Artifact ID: ")
+                        art_list = artifacts.remove_artifact(artifact,art_list)
+                        print(input("\nPress enter to go back "))
+                        clear()
+                    case 6:
+                        flag_stats_art = False
+
+                        while not flag_stats_art:
+                            clear()
+                            option = artifacts_stats()
+
+                            match option:
+                                case 1:
+                                    clear()
+                                    print(f'{"The total number of artifacts registered is:"} {len(art_list)}')
+                                    print(input("\nPress enter to go back "))
+                                    clear()
+
+                                case 2:
+                                    clear()
+                                    print(artifacts.artifacts_rarity(art_list))
+                                    print(input("\nPress enter to go back "))
+                                    clear()
+                                    #falt aponerlo lindo
+
+                                case 3:
+                                    clear()
+                                    print(artifacts.artifacts_status(art_list))
+                                    print(input("\nPress enter to go back "))
+                                    clear()
+                                    #falt aponerlo lindo
+
+                                case 4:
+                                    clear()
+                                    flag_stats_art = True
+                    case 7:
+                        clear()
+                        flag_arts = True
         case 3:
             clear()
             flag_menu = True

@@ -58,5 +58,17 @@
         "name": "apo",
         "species": "other",
         "status": "retired"
+    },
+    {
+        "id": "999",
+        "name": "yako",
+        "species": "android",
+        "status": "active"
+    },
+    {
+        "id": "120",
+        "name": "naomi",
+        "species": "human",
+        "status": "active"
     }
 ]
